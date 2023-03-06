@@ -308,6 +308,21 @@ func (l *LocalWorkspace) WhoAmI(ctx context.Context) (string, error) {
 	return strings.TrimSpace(stdout), nil
 }
 
+// WhoAmI returns the currently authenticated user
+func (l *LocalWorkspace) WhoAmIDetailed(ctx context.Context) (WhoAmIDetailedInfo, error) {
+	var whoAmIResult WhoAmIDetailedInfo
+	stdout, stderr, errCode, err := l.runPulumiCmdSync(ctx, "whoami", "--json")
+	if err != nil {
+		return whoAmIResult, newAutoError(
+			fmt.Errorf("could not retrieve whoamidetailed result: %w", err), stdout, stderr, errCode)
+	}
+	err = json.Unmarshal([]byte(stdout), &whoAmIResult)
+	if err != nil {
+		return whoAmIResult, fmt.Errorf("unable to unmarshal whoamidetailed result: %w", err)
+	}
+	return whoAmIResult, nil
+}
+
 // Stack returns a summary of the currently selected stack, if any.
 func (l *LocalWorkspace) Stack(ctx context.Context) (*StackSummary, error) {
 	stacks, err := l.ListStacks(ctx)

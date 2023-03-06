@@ -1,0 +1,4 @@
+changes:
+- type: feat
+  scope: auto/go
+  description: Add url and organizations to WhoAmIResult for Go Automation API
