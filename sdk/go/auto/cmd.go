@@ -35,7 +35,7 @@ func runPulumiCommandSync(
 	// all commands should be run in non-interactive mode.
 	// this causes commands to fail rather than prompting for input (and thus hanging indefinitely)
 	args = withNonInteractiveArg(args)
-	cmd := exec.CommandContext(ctx, "pulumi", args...)
+	cmd := exec.CommandContext(ctx, "/Users/mrod/.pulumi-dev/bin/pulumi", args...)
 	cmd.Dir = workdir
 	cmd.Env = append(os.Environ(), additionalEnv...)
 
